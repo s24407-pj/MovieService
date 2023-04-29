@@ -1,4 +1,4 @@
-package com.example.movieservice;
+package com.example.movieservice.model;
 
 public enum Genre {
     ACTION,

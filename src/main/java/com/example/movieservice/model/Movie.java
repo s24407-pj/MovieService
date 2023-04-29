@@ -1,4 +1,4 @@
-package com.example.movieservice;
+package com.example.movieservice.model;
 
 public class Movie {
     private int id;
@@ -7,7 +7,7 @@ public class Movie {
     private int year;
     private String description;
 
-    public Movie(int id,String title, Genre genre, int year, String description) {
+    public Movie(int id, String title, Genre genre, int year, String description) {
         this.id = id;
         this.title = title;
         this.genre = genre;
