@@ -1,6 +1,6 @@
 package com.example.movieservice.model;
 
-public enum Genre {
+public enum MovieGenre {
     ACTION,
     COMEDY,
     DRAMA,

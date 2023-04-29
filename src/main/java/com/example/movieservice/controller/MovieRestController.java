@@ -25,7 +25,6 @@ public class MovieRestController {
     @PostMapping("/movies")
     @ResponseBody
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-
         return ResponseEntity.ok(movie);
     }
 }

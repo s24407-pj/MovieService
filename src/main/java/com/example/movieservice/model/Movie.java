@@ -3,14 +3,14 @@ package com.example.movieservice.model;
 public class Movie {
     private int id;
     private String title;
-    private Genre genre;
+    private MovieGenre movieGenre;
     private int year;
     private String description;
 
-    public Movie(int id, String title, Genre genre, int year, String description) {
+    public Movie(int id, String title, MovieGenre movieGenre, int year, String description) {
         this.id = id;
         this.title = title;
-        this.genre = genre;
+        this.movieGenre = movieGenre;
         this.year = year;
         this.description = description;
     }
@@ -20,7 +20,7 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", genre=" + genre +
+                ", genre=" + movieGenre +
                 ", year=" + year +
                 ", description='" + description + '\'' +
                 '}';
@@ -42,12 +42,12 @@ public class Movie {
         this.title = title;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public MovieGenre getGenre() {
+        return movieGenre;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenre(MovieGenre movieGenre) {
+        this.movieGenre = movieGenre;
     }
 
     public int getYear() {

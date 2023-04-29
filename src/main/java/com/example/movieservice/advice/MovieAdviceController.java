@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class MovieAdviceController {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(){
-    //nie dziala nwm
+    //todo exception for 400
         return null;
     }
 
