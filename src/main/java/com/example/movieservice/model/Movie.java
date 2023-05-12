@@ -4,10 +4,10 @@ public class Movie {
     private int id;
     private String title;
     private MovieGenre movieGenre;
-    private int year;
+    private Integer year;
     private String description;
 
-    public Movie(int id, String title, MovieGenre movieGenre, int year, String description) {
+    public Movie(int id, String title, MovieGenre movieGenre, Integer year, String description) {
         this.id = id;
         this.title = title;
         this.movieGenre = movieGenre;
@@ -50,11 +50,11 @@ public class Movie {
         this.movieGenre = movieGenre;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
