@@ -1,18 +1,27 @@
 package com.example.movieservice.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Movie {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
+    @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
     private Integer year;
     private String description;
 
-    public Movie(int id, String title, MovieGenre movieGenre, Integer year, String description) {
-        this.id = id;
+    public Movie( String title, MovieGenre movieGenre, Integer year, String description) {
+
         this.title = title;
         this.movieGenre = movieGenre;
         this.year = year;
         this.description = description;
+    }
+
+    public Movie() {
     }
 
     @Override
@@ -26,11 +35,11 @@ public class Movie {
                 '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

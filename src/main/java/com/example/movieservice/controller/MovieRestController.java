@@ -24,7 +24,7 @@ public class MovieRestController {
 
     @GetMapping("/movies/{id}")
     @ResponseBody
-    public ResponseEntity<Movie> getMovieById(@PathVariable int id) {
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
         Movie movie = movieService.getMovieById(id);
         if (movie != null) {
             return ResponseEntity.ok(movie);
@@ -47,7 +47,7 @@ public class MovieRestController {
     }
 
     @PutMapping("/movies/{id}")
-    public ResponseEntity updateMovie(@PathVariable int id, @RequestBody Movie movie) {
+    public ResponseEntity updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
         try {
             Movie existingMovie = movieService.getMovieById(id);
             if (existingMovie == null) {
