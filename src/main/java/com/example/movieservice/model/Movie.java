@@ -1,14 +1,16 @@
 package com.example.movieservice.model;
 
-import jakarta.persistence.*;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String title;
-    @Enumerated(EnumType.STRING)
+   // @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
     private Integer year;
     private String description;
