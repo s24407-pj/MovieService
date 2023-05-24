@@ -8,6 +8,14 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
 public class MovieAdviceController {
+    @ExceptionHandler(MovieValidationException.class)
+    public ResponseEntity<String> handleMovieValidationException(MovieValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
+    }
 
 }

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MovieRepository extends MongoRepository<Movie,Long> {
-    Optional<Movie> findById(Long id);
-    //List<Movie>
+public interface MovieRepository extends MongoRepository<Movie,String> {
+
 
 }

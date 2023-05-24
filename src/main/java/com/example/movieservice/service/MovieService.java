@@ -5,6 +5,7 @@ import com.example.movieservice.model.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieService {
@@ -14,24 +15,22 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
+    public Movie addMovie(Movie movie) {
+        movieRepository.insert(movie);
+        return movie;
+    }
+
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    public Movie getMovieById(Long id) {
-        List<Movie> movieArrayList = getAllMovies();
-        for (Movie movie : movieArrayList){
-            if(movie.getId()==id) return movie;
-        }
-        return null;
+    public Optional<Movie> getMovieById(String id) {
+        return movieRepository.findById(id);
     }
 
-    public Movie addMovie(Movie movie) {
 
-        return movie;
-    }
 
     public Movie updateMovie(Movie movie) {
-        return movie;
+        return movieRepository.save(movie);
     }
 }

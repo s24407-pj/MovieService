@@ -1,5 +1,6 @@
 package com.example.movieservice.controller;
 
+import com.example.movieservice.advice.MovieValidationException;
 import com.example.movieservice.model.Movie;
 import com.example.movieservice.service.MovieService;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class MovieRestController {
@@ -14,6 +16,16 @@ public class MovieRestController {
 
     public MovieRestController(MovieService movieService) {
         this.movieService = movieService;
+    }
+
+    @PostMapping("/movies")
+    @ResponseBody
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) throws MovieValidationException {
+        if (movie.getTitle() == null || movie.getGenre() == null || movie.getYear() == null || movie.getDescription() == null) {
+            throw new MovieValidationException("Missing required fields: title, genre, year, description");
+        }
+        movieService.addMovie(movie);
+        return ResponseEntity.ok(movie);
     }
 
     @GetMapping("/movies")
@@ -24,42 +36,29 @@ public class MovieRestController {
 
     @GetMapping("/movies/{id}")
     @ResponseBody
-    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
-        Movie movie = movieService.getMovieById(id);
+    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable String id) {
+       Optional<Movie> movie = movieService.getMovieById(id);
         if (movie != null) {
             return ResponseEntity.ok(movie);
         } else return ResponseEntity.notFound().build();
     }
 
 
-    @PostMapping("/movies")
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        try {
-            if (movie.getTitle() == null || movie.getGenre() == null || movie.getYear() == null) {
-                return ResponseEntity.badRequest().build();
-            }
-            movieService.addMovie(movie);
-            return ResponseEntity.ok(movie);
-        } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
-    @PutMapping("/movies/{id}")
-    public ResponseEntity updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
+    /*@PutMapping("/movies/{id}")
+    public ResponseEntity updateMovie(@PathVariable String id, @RequestBody Movie movie) {
         try {
-            Movie existingMovie = movieService.getMovieById(id);
+            Optional<Movie> existingMovie = movieService.getMovieById(id);
             if (existingMovie == null) {
                 return ResponseEntity.notFound().build();
             }
-            movie.setId(id);
-            movie = movieService.updateMovie(movie);
-            return ResponseEntity.noContent().build();
+
+
+             movieService.updateMovie(existingMovie);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-
+    }*/
 }
