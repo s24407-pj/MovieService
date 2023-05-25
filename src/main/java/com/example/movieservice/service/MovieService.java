@@ -2,6 +2,7 @@ package com.example.movieservice.service;
 
 import com.example.movieservice.repository.MovieRepository;
 import com.example.movieservice.model.Movie;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,13 +25,13 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public Optional<Movie> getMovieById(String id) {
+    public Optional<Movie> getMovieById(ObjectId id) {
         return movieRepository.findById(id);
     }
 
 
-
     public Movie updateMovie(Movie movie) {
+
         return movieRepository.save(movie);
     }
 }

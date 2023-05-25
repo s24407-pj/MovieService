@@ -18,4 +18,5 @@ public class MovieAdviceController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your request");
     }
 
+
 }

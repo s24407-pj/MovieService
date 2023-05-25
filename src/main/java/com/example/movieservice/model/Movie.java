@@ -1,5 +1,6 @@
 package com.example.movieservice.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -7,13 +8,13 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Document(collection = "movies")
 public class Movie {
-    @Id
-    private String id;
+    private ObjectId id;
     private String title;
     @Field(name = "movieGenre", targetType = FieldType.STRING)
     private MovieGenre movieGenre;
     private Integer year;
     private String description;
+    private boolean isAvailable = false;
 
     public Movie(String title, MovieGenre movieGenre, Integer year, String description) {
 
@@ -23,8 +24,6 @@ public class Movie {
         this.description = description;
     }
 
-    public Movie() {
-    }
 
     @Override
     public String toString() {
@@ -37,10 +36,9 @@ public class Movie {
                 '}';
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
-
 
 
     public String getTitle() {
@@ -73,5 +71,13 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }
