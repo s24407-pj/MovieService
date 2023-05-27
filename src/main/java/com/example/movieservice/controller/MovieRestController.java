@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(("/movies"))
 public class MovieRestController {
     private final MovieService movieService;
 
@@ -19,7 +20,7 @@ public class MovieRestController {
         this.movieService = movieService;
     }
 
-    @PostMapping("/movies")
+    @PostMapping
     @ResponseBody
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) throws MovieValidationException {
         if (movie.getTitle() == null || movie.getGenre() == null || movie.getYear() == null || movie.getDescription() == null) {
@@ -29,13 +30,13 @@ public class MovieRestController {
         return ResponseEntity.ok(movie);
     }
 
-    @GetMapping("/movies")
+    @GetMapping
     @ResponseBody
     public ResponseEntity<List<Movie>> getAllMovies() {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable ObjectId id) {
         Optional<Movie> movie = movieService.getMovieById(id);
@@ -45,7 +46,7 @@ public class MovieRestController {
     }
 
 
-    @PutMapping("/movies/{id}")
+    @PutMapping("/{id}")
     @ResponseBody
     public ResponseEntity updateMovie(@PathVariable ObjectId id, @RequestBody Movie movie) {
         try {
