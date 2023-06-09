@@ -59,5 +59,12 @@ public class MovieRestController {
         }
     }
 
+    @PatchMapping("/{id}/availability")
+    public ResponseEntity setAavailabilityToTrue(@PathVariable ObjectId id){
+        return movieService.setAvailabilityToTrue(id) ?
+                ResponseEntity.ok().build() :
+                ResponseEntity.badRequest().build();
+    }
+
 
 }
