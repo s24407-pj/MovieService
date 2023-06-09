@@ -35,12 +35,12 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
-    public boolean setAvailabilityToTrue(ObjectId id) {
+    public boolean setAvailability(ObjectId id,boolean isAvailable) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
         if (optionalMovie.isEmpty()) return false;
         else {
             Movie movie = optionalMovie.get();
-            movie.setAvailable(true);
+            movie.setAvailable(isAvailable);
             movieRepository.save(movie);
             return true;
         }

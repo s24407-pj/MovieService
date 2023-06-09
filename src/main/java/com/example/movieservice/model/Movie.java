@@ -23,6 +23,8 @@ public class Movie {
         this.description = description;
     }
 
+    public Movie() {
+    }
 
     @Override
     public String toString() {
