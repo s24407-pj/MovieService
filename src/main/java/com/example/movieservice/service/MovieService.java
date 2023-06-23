@@ -1,5 +1,6 @@
 package com.example.movieservice.service;
 
+import com.example.movieservice.advice.ResourceNotFoundException;
 import com.example.movieservice.repository.MovieRepository;
 import com.example.movieservice.model.Movie;
 import org.bson.types.ObjectId;
@@ -17,21 +18,21 @@ public class MovieService {
     }
 
     public Movie addMovie(Movie movie) {
-        movieRepository.insert(movie);
-        return movie;
+        return movieRepository.insert(movie);
     }
 
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    public Optional<Movie> getMovieById(ObjectId id) {
-        return movieRepository.findById(id);
+    public Movie findMovieById(ObjectId id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with ID: " + id));
     }
 
-
-    public Movie updateMovie(Movie movie) {
-
+    public Movie updateMovie(ObjectId id, Movie movie) {
+        findMovieById(id); // Ensure the movie exists
+        movie.setId(id);
         return movieRepository.save(movie);
     }
 

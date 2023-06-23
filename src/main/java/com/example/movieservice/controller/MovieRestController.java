@@ -1,15 +1,17 @@
 package com.example.movieservice.controller;
 
-import com.example.movieservice.advice.MovieValidationException;
 import com.example.movieservice.model.Movie;
 import com.example.movieservice.service.MovieService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.bson.types.ObjectId;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(("/movies"))
@@ -19,55 +21,49 @@ public class MovieRestController {
     public MovieRestController(MovieService movieService) {
         this.movieService = movieService;
     }
-
+    @Operation(summary = "Add movie to database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movie added to database",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Movie.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content) })
     @PostMapping
-    @ResponseBody
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) throws MovieValidationException {
-        if (movie.getTitle() == null || movie.getGenre() == null || movie.getYear() == null || movie.getDescription() == null) {
-            throw new MovieValidationException("Missing required fields: title, genre, year, description");
-        }
-        movieService.addMovie(movie);
-        return ResponseEntity.ok(movie);
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+        Movie addedMovie = movieService.addMovie(movie);
+        return ResponseEntity.ok(addedMovie);
     }
 
     @GetMapping
-    @ResponseBody
     public ResponseEntity<List<Movie>> getAllMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
+        List<Movie> movies = movieService.getAllMovies();
+        return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Optional<Movie>> getMovieById(@PathVariable ObjectId id) {
-        Optional<Movie> movie = movieService.getMovieById(id);
-        if (movie.isPresent()) {
-            return ResponseEntity.ok(movie);
-        } else return ResponseEntity.notFound().build();
+    public ResponseEntity<Movie> findMovieById(@PathVariable("id") ObjectId id) {
+        Movie movie = movieService.findMovieById(id);
+
+        return ResponseEntity.ok(movie);
     }
 
-
     @PutMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity updateMovie(@PathVariable ObjectId id, @RequestBody Movie movie) {
-        try {
-            Optional<Movie> theMovie = movieService.getMovieById(id);
-            theMovie.ifPresent(movie1 -> movieService.updateMovie(movie));
-            return ResponseEntity.ok(theMovie);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Movie> updateMovie(@PathVariable("id") ObjectId id, @RequestBody Movie movie) {
+        Movie updatedMovie = movieService.updateMovie(id, movie);
+        return ResponseEntity.ok(updatedMovie);
     }
 
     @PatchMapping("/{id}/availability/true")
-    public ResponseEntity setAvailabilityToTrue(@PathVariable ObjectId id){
+    public ResponseEntity<HttpStatusCode> setAvailabilityToTrue(@PathVariable ObjectId id){
         return movieService.setAvailability(id,true) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.badRequest().build();
     }
 
     @PatchMapping("/{id}/availability/false")
-    public ResponseEntity setAvailabilityToFalse(@PathVariable ObjectId id){
+    public ResponseEntity<HttpStatusCode>  setAvailabilityToFalse(@PathVariable ObjectId id){
         return movieService.setAvailability(id,false) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.badRequest().build();
